@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - 栗花落霧月</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 淡紫罗兰主题色 */
+            --bg-gradient: linear-gradient(135deg, #e6e6fa 0%, #f3e5f5 50%, #ede7f6 100%);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --primary-color: #7b1fa2; /* 深紫罗兰 */
+            --secondary-color: #9c27b0; /* 亮紫色 */
+            --text-main: #4a148c; /* 深紫文字 */
+            --text-light: #6a1b9a; 
+            --text-gray: #7b6f82;
+            --border-light: #e1bee7;
+            --tag-bg: #f3e5f5;
+            --tag-text: #8e24aa;
+            --box-shadow: 0 8px 32px rgba(156, 39, 176, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* 主卡片 */
+        .container {
+            background: var(--card-bg);
+            max-width: 1000px;
+            width: 100%;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: var(--box-shadow);
+            border: 1px solid #fff;
+            backdrop-filter: blur(12px);
+            position: relative;
+        }
+
+        /* 顶部标题区域 */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed var(--border-light);
+            position: relative;
+        }
+
+        .header h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 54px;
+            color: var(--primary-color);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 14px;
+            letter-spacing: 4px;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        /* 基础信息 Tag */
+        .basic-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .basic-info span {
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border: 1px solid var(--border-light);
+        }
+
+        /* 网格布局 */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        /* 通用区块样式 */
+        .section {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            border: 1px solid #f3e5f5;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 18px;
+            background: var(--secondary-color);
+            border-radius: 3px;
+        }
+
+        .section p {
+            margin-bottom: 10px;
+            font-size: 15px;
+            color: var(--text-gray);
+        }
+
+        .highlight {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* 标签流 */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .tag {
+            background: #f8f5fa;
+            color: var(--text-main);
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            border: 1px solid #eee;
+        }
+        .tag.played { background: #e8f5e9; color: #2e7d32; border-color: #c8e6c9; } /* 玩过的用一点绿色区分 */
+        .tag.dropped { background: #fafafa; color: #9e9e9e; border-color: #eeeeee; text-decoration: line-through; } /* 弃坑的置灰 */
+
+        /* 列表容器（用于评价和番剧） */
+        .scroll-box {
+            max-height: 250px;
+            overflow-y: auto;
+            padding-right: 10px;
+            font-size: 14px;
+            color: var(--text-gray);
+            line-height: 1.8;
+        }
+        /* 自定义滚动条 */
+        .scroll-box::-webkit-scrollbar { width: 6px; }
+        .scroll-box::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 4px; }
+        .scroll-box::-webkit-scrollbar-track { background: transparent; }
+
+        /* 折叠面板 */
+        details {
+            background: #faf8fb;
+            border-radius: 12px;
+            border: 1px solid var(--border-light);
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        summary {
+            padding: 12px 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f3ebf5;
+            transition: background 0.3s;
+        }
+
+        summary::-webkit-details-marker { display: none; }
+
+        summary::after {
+            content: '▼';
+            font-size: 12px;
+            transition: transform 0.3s;
+        }
+
+        details[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        .anime-list {
+            padding: 15px;
+            font-size: 13px;
+            line-height: 1.8;
+            color: var(--text-gray);
+            max-height: 300px;
+            overflow-y: auto;
+            columns: 2; /* 双列排版长列表 */
+            column-gap: 20px;
+        }
+
+        /* 好友评价列表 */
+        .eval-list {
+            list-style: none;
+            padding: 0;
+        }
+        .eval-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+        .eval-list li::before {
+            content: '"';
+            position: absolute;
+            left: 0;
+            top: -5px;
+            font-size: 24px;
+            color: var(--border-light);
+            font-family: serif;
+        }
+
+        /* 底部特别强调 */
+        .footer-note {
+            text-align: center;
+            background: var(--tag-bg);
+            padding: 20px;
+            border-radius: 16px;
+            border: 2px dashed var(--secondary-color);
+            margin-top: 20px;
+        }
+        .footer-note h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        /* 手机端适配 */
+        @media (max-width: 768px) {
+            body { padding: 15px 10px; }
+            .container { padding: 20px; }
+            .grid { grid-template-columns: 1fr; gap: 20px; }
+            .header h1 { font-size: 42px; }
+            .anime-list { columns: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 顶部基础信息 -->
+    <div class="header">
+        <h1>Self Introduction</h1>
+        <div class="subtitle">栗花落霧月 · 个人档案</div>
+        <div class="basic-info">
+            <span>✨ 称呼：霧月(老师)/小朱</span>
+            <span>🎓 25级大学生 / 19岁</span>
+            <span>🎂 09/18</span>
+            <span>📍 成都(假期) / 沈阳(上学)</span>
+            <span>💻 IP: 172.24.85.xxx (误)</span>
+        </div>
+    </div>
+
+    <div class="grid">
+        <!-- 左侧：日常与偏好 -->
+        <div class="section">
+            <div class="section-title">日常与偏好</div>
+            <p><span class="highlight">爱好：</span>打游戏，听歌，唱歌，羽毛球，看番，和你一起消磨时间……</p>
+            <p><span class="highlight">想做的事：</span>练宅舞，绘画，试着cos（暂缓），学唱各种各样的歌，学日语，学韩语……</p>
+            <p><span class="highlight">二次元推：</span>虽然之前是knd激推，但现在觉得只要角色很可爱或者某个特质很吸引我就好啦～</p>
+            
+            <details>
+                <summary>🎮 玩过的 Galgame (11部)</summary>
+                <div class="anime-list" style="columns: 1;">
+                    千恋万花、星空列车与白的旅行、ddlc、ATRI、高考恋爱一百天、三色绘恋、命运石之门、小小的身影重叠的内心、饿殍明末千里行、主播女孩重度依赖、枪弹辩驳（实况）。
+                </div>
+            </details>
+        </div>
+
+        <!-- 右侧：游戏涉猎 -->
+        <div class="section">
+            <div class="section-title">游戏涉猎</div>
+            <p><span class="highlight">常玩游戏：</span></p>
+            <div class="tags">
+                <span class="tag played">战雷</span>
+                <span class="tag played">明日方舟</span>
+                <span class="tag played">边狱巴士</span>
+                <span class="tag played">Minecraft</span>
+                <span class="tag played">音游(泛音游)</span>
+                <span class="tag played">三国杀</span>
+                <span class="tag played">Galgame</span>
+                <span class="tag played">雀魂(麻将)</span>
+                <span class="tag played">解谜类</span>
+                <span class="tag played">明日之后</span>
+            </div>
+            
+            <p style="margin-top: 15px;"><span class="highlight">弃坑/偶尔玩：</span></p>
+            <div class="tags">
+                <span class="tag dropped">王者荣耀</span>
+                <span class="tag dropped">第五人格</span>
+                <span class="tag dropped">无畏契约</span>
+                <span class="tag dropped">无尽的拉格朗日</span>
+                <span class="tag dropped">终末地</span>
+                <span class="tag dropped">原神</span>
+            </div>
+            <p style="margin-top: 15px; font-size: 13px;">💡 欢迎找我一起玩游戏，就算是我没玩过的，我也可以尽可能去学一点！</p>
+        </div>
+    </div>
+
+    <!-- 全宽区块：番剧列表 -->
+    <div class="section" style="margin-bottom: 30px;">
+        <div class="section-title">看过的番剧</div>
+        <p style="font-size: 14px; margin-bottom: 5px;">二次元浓度极高，共计 170+ 部！（包含已看与补番列表）</p>
+        <details>
+            <summary>点击展开/收起完整番剧列表 📺</summary>
+            <div class="anime-list">
+                1.明日酱的水手服 2.加速世界 3.女高中生的虚度日常 4.堀与宫村 5.想要成为影之实力者 6.俺物语 7.ReLIFE 8.月刊少女野崎君 9.邻座的怪同学 10.月色真美 11.中二病也要谈恋爱 12.夏洛特 13.天气之子 14.刀剑神域 15.天使的心跳 16.轻音少女 17.青春猪头少年 18.吹响吧！上低音号 19.Clannad 20.冰菓 21.Re:从零开始 22.紫罗兰永恒花园 23.春物 24.辉夜大小姐 25.声之形 26.超电磁炮 27.玉子市场 28.伪恋 29.点兔 30.未闻花名 31.四月是你的谎言 32.你的名字 33.境界的彼方 34.可塑性记忆 35.秒速五厘米 36.言叶之庭 37.我推的孩子 38.我心里危险的东西 39.间谍过家家 40.租借女友 41.魔女之旅 42.五等分的新娘 43.实教 44.路人女主 45.罪恶王冠 46.游戏人生 47.命运石之门 48.寄宿学院的朱丽叶 49.青春男与电波女 50.Happy Sugar Life 幸运星 魔法少女小圆。<br><br>
+                <strong>补番列表：</strong><br>
+                51.好想告诉你 52.元气少女缘结神 53.奇蛋物语 54.少女歌剧 55.龙王的工作 56.青春之旅 57.赤发白雪姬 58.甘城光辉游乐园 59.比宇宙更遥远的地方 60.LoveLive! 61.白箱 62.东方 63.神的笔记本 64.妄想学生会 65.我的朋友很少 66.偶像大师 67.来自多彩世界的明天 68.DARLING in the FRANXX 69.战姬绝唱 70.光之美少女 71.健身少女 72.漆黑的子弹 73.变态王子与不笑猫 74.摇曳百合 75.街角魔族 76.俄语遮羞 77.葬送的芙莉莲 78.RWBY 79.式守同学 80.无职转生 81.侦探已经死了 82.鬼灭之刃 83.野良神 84.约会大作战 85.散华礼弥 86.我想吃掉你的胰脏 87.斩赤红之瞳 88.寒蝉鸣泣之时 89.末日三问 90.赛博朋克边缘行者 91.星灵感应 92.孤独摇滚 93.SLOW LOOP 94.恋爱小行星 95.Anima Yell! 96.Comic Girls 97.Slow Start 98.摇曳露营 99.Urara迷路帖 100.斯特拉的魔法 101.NEW GAME! 102.Anne Happy♪ 103.学园孤岛 104.花舞少女 105.樱Trick 106.黄金拼图 107.悠悠式 108.A Channel 109.GA 艺术科 110.向阳素描 111.线上游戏的老婆 112.恋爱随意链接 113.会长是女仆大人 114.高木同学 115.狐妖×仆SS 116.落第骑士 117.异度侵入 118.阿宅的恋爱真难 119.邻家的天使大人 120.未来日记 121.理科生坠入情网 122.橘色奇迹 123.双星之阴阳师 124.瑞克和莫蒂 125.我独自升级 126.One Room 127.向山进发 128.悠哉日常大王 129.女孩的钓鱼慢活 130.相合之物 131.Little Busters! 132.天使降临到我身边 133.金牌得主 134.关于前辈很烦人的事 135.邻家索菲 136.白圣女与黑牧师 137.魔法少女与邪恶 138.阿波连同学 139.干物妹小埋 140.一起一起这里那里 141.雏子的笔记 142.珈百璃的堕落 143.RPG不动产 144.碧蓝航线 145.蔚蓝档案 146.龙女仆 147.属性咖啡厅 148.与游戏中心的少女 149.我家女仆有够烦 155.天使的3P! 156.萝球社 157.日常系的异能战斗 158.雏逻辑 159.时光流逝饭菜依旧美味 160.mono女孩 161.一个人的○○小日子 162.贤惠幼妻仙狐小姐 163.别当欧尼酱了 164.Bad Girl 165.少女波子汽水 166.300日元的交易 167.少女教育 168.喜欢，喜欢，最喜欢了 169.一年之后的你 170.公立海老栖川高校天闷部 171.超超超超超喜欢你的100个女孩子 172.莉可莉丝。
+            </div>
+        </details>
+    </div>
+
+    <!-- 全宽区块：社交与好友评价 -->
+    <div class="section">
+        <div class="section-title">社交与评价</div>
+        
+        <p style="margin-bottom: 15px;">
+            <span class="highlight">我能做的：</span>一些电脑技术上的问题，各种番剧、网站、Galgame资源查找。<br>
+            如果IP相同，可以找我一起逛街，唱K，线下麻将（娱乐），练舞……总之，欢迎找我互动！小窗，空间皆可！
+        </p>
+        
+        <p><span class="highlight">雷点：</span>基本没有吧（？）就算看到了我基本也会无视 (暂时想不到www)</p>
+
+        <details>
+            <summary>💬 好友列表的评价（点击查看）</summary>
+            <ul class="eval-list scroll-box" style="max-height: 200px; padding: 15px;">
+                <li>温柔、老实人、真诚、开朗外向（存疑）、闷、神经质(确定?)、稳定、还行、比较靠谱</li>
+                <li>像是不会生气，外表看起来有自己的世界，解除后如果有共同话题会变得很热情很细心</li>
+                <li>自律(其实我自己都不觉得)，很靠谱、和蔼、脾气好、细心、必要时不缺乏强硬，是谱子的优秀群友！</li>
+                <li>内向、人很好，有点呆呆的，很温和，相处起来很舒服，很真挚的孩子</li>
+                <li>打游戏有时会红温，但红的很克制(其实目前仅限战雷会红)</li>
+                <li>开朗，比较大度，很好相处，可爱(?认真的吗?)，很有礼貌，会替别人着想，性格温柔可爱</li>
+                <li>是个好人（确信），温柔可靠，会解决问题，很朴实</li>
+                <li>性格温柔，但也不是软柿子，仗义，大方，性格好，不会乱发脾气</li>
+                <li>松弛，宽容不自私，礼貌，态度良好，挺上进，有点腼腆</li>
+            </ul>
+        </details>
+    </div>
+
+    <!-- 底部强调 -->
+    <div class="footer-note">
+        <h3>✨ 欢迎来找我互动！ ✨</h3>
+        <p style="color: var(--text-gray); font-size: 14px;">无论是打游戏、找资源、还是单纯消磨时间，随时欢迎小窗！</p>
+    </div>
+
+</div>
+
+</body>
+</html>
